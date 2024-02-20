@@ -1,0 +1,17 @@
+curl --location --request POST 'http://127.0.0.1:9090/execute' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "command": "Any trains from Galle to Colombo?",
+    "userEmail": "demo.user.ballerina@gmail.com",
+    "userLocation": "Colombo"
+}
+'
+
+curl --location --request POST 'http://127.0.0.1:9090/execute' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "command": "Book me next train to Galle and send confirmation",
+    "userEmail": "demo.user.ballerina@gmail.com",
+    "userLocation": "Colombo"
+}'
+

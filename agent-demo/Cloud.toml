@@ -1,0 +1,7 @@
+[container.image]
+repository="nadheesh"
+name="agent"
+tag="v1.0.2"
+
+[settings]
+buildImage=true

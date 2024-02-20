@@ -1,0 +1,158 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "/",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://f2c7f522-ef47-48ce-a429-3fc2f15d2011-dev.e1-us-east-azure.choreoapis.dev/zgzz/trainapi/endpoint-9091-6c0/v1",
+      "variables": {
+        "server": {
+          "default": "http://localhost"
+        },
+        "port": {
+          "default": "9090"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/checkTrains": {
+      "get": {
+        "summary": "Useful to find the available trains from a given destination to another. The train schedules are not ordered by time, and entryId is just an unique identifier for each train. Time is given in 24 hour format.",
+        "operationId": "getChecktrains",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Starting station",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "enum": ["Colombo", "Galle", "Kandy"]               }
+              }
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "Destination station",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"  ,
+                  "enum": ["Colombo", "Galle", "Kandy"]                   }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TrainInfo"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bookTrain": {
+      "post": {
+        "summary": "Useful to book a train given the train ID",
+        "operationId": "postBooktrain",
+        "parameters": [
+          {
+            "name": "trainScheduleId",
+            "in": "query",
+            "description": "ID of the train to be booked",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bookedTrain": {
+                      "$ref": "#/components/schemas/TrainInfo"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TrainInfo": {
+        "required": [
+          "endTime",
+          "entryId",
+          "from",
+          "startTime",
+          "to",
+          "trainType"
+        ],
+        "type": "object",
+        "properties": {
+          "entryId": {
+            "type": "string"
+          },
+          "startTime": {
+            "type": "string"
+          },
+          "endTime": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "trainType": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
